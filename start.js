@@ -16,8 +16,9 @@ const parameters =
 
 
 
-setUpGUI()
+
 init()
+setUpGUI()
 animate()
 
 function init() {
@@ -50,7 +51,7 @@ function init() {
 
 
   camera = new THREE.PerspectiveCamera(120, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.set(1000, 1000, 10000);
+  camera.position.set(0, 0, 10000);
 
   drawAxis()
 
