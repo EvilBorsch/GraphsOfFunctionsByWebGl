@@ -1,4 +1,3 @@
-// three.js animataed line using BufferGeometry
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r114/build/three.module.js';
 import {GUI} from 'https://threejsfundamentals.org/threejs/../3rdparty/dat.gui.module.js';
 
@@ -16,10 +15,11 @@ const parameters =
 
 
 
-
-init()
 setUpGUI()
+init()
+
 animate()
+
 
 function init() {
 
@@ -29,12 +29,12 @@ function init() {
   info.style.top = '30px';
   info.style.width = '100%';
   info.style.textAlign = 'center';
-  info.style.color = '#fff';
+  info.style.color = '#ab1062';
   info.style.fontWeight = 'bold';
   info.style.backgroundColor = 'transparent';
   info.style.zIndex = '1';
   info.style.fontFamily = 'Monospace';
-  info.innerHTML = "График функции y=x+2";
+  info.innerHTML = "График функции y=-x-2";
   document.body.appendChild(info);
 
   // renderer
@@ -50,8 +50,6 @@ function init() {
   scene.background=c
 
 
-  camera = new THREE.PerspectiveCamera(120, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.set(0, 0, 10000);
 
   drawAxis()
 
@@ -60,15 +58,17 @@ function init() {
 }
 
 
-
+var coef=10
+camera = new THREE.PerspectiveCamera(140, window.innerWidth / window.innerHeight, 1, coef);
+camera.position.set(0, 0, coef);
 
 
 
 function drawAxis() {
-  let materialLine = new THREE.LineBasicMaterial({color: 0x0000ff});
+  let materialLine = new THREE.LineBasicMaterial({color: 0x000000});
   let geometryLine = new THREE.Geometry();
   geometryLine.vertices.push(new THREE.Vector3(0, 0, 0));
-  geometryLine.vertices.push(new THREE.Vector3(0, 10000, 0));
+  geometryLine.vertices.push(new THREE.Vector3(0, 20000, 0));
   geometryLine.vertices.push(new THREE.Vector3(0, 0, 0));
   geometryLine.vertices.push(new THREE.Vector3(20000, 0, 0));
   let line2 = new THREE.Line(geometryLine, materialLine);
@@ -100,18 +100,30 @@ function setUpGUI() {
   folder1.add(parameters, 'y').onChange((value) => {
     // eslint-disable-next-line max-len
     ymax=value
+    camera = new THREE.PerspectiveCamera(140, window.innerWidth / window.innerHeight, 1, value);
+    camera.position.set(0,0,value)
+
 
 
   });
 
   folder1.add(parameters, 'x').onChange((value) => {
     // eslint-disable-next-line max-len
-    xmax=value
+    ChangeCameraByX(value)
+
 
 
   });
 
 
+
+
+}
+
+
+function ChangeCameraByX(value){
+  xmax=value
+  camera.position.set(value,0,ymax)
 }
 
 
@@ -128,21 +140,23 @@ function render() {
 
 var prevx=0
 var prevy=0
-var ymax=10000000
-var xmax=1000000
+var ymax=coef
+var xmax=100
 
+
+function f(x) {
+  return -x-2
+}
 
 function animate(time) {
 
-  time=time*1
+  time=time/100
   let x=time
-  let y=x+2
-  if (y>ymax){
-    return
-  }
-  if (x>xmax){
-    return
-  }
+  let y=f(x)
+  console.log(time)
+
+
+
 
 
   drawLine(prevx,prevy,x,y)
