@@ -34,7 +34,7 @@ function init() {
   info.style.backgroundColor = 'transparent';
   info.style.zIndex = '1';
   info.style.fontFamily = 'Monospace';
-  info.innerHTML = "График функции y=-x-2";
+  info.innerHTML = "График функции y=sin(x)";
   document.body.appendChild(info);
 
   // renderer
@@ -145,7 +145,7 @@ var xmax=100
 
 
 function f(x) {
-  return -x-2
+  return Math.sin(x)
 }
 
 function animate(time) {
